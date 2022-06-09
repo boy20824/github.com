@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -91,6 +92,22 @@ func main() {
 		email:    "test@gmail.com",
 	}))
 
+	fmt.Println("------------------")
+
+	if _, err := checkUserNameExist("foo"); err != nil {
+		if isErrUserNameExist(err) {
+			fmt.Println(err)
+		}
+	}
+
+	if _, err := checkUserNameExist("bar"); err != nil {
+		if isErrUserNameExist(err) {
+			fmt.Println(err)
+		} else {
+			fmt.Println("IsErrUserNameExist is false")
+		}
+	}
+
 }
 
 func add(i, j int) int {
@@ -125,4 +142,28 @@ func getUserListOptsSQL(opts searchOpts) string {
 	}
 
 	return sql + "where" + strings.Join(where, " or ")
+}
+
+func checkUserNameExist(username string) (bool, error) {
+	if username == "foo" {
+		return true, errUserNameExist{UserName: username}
+	}
+
+	if username == "bar" {
+		return true, errors.New("username bar already exist")
+	}
+	return false, nil
+}
+
+type errUserNameExist struct {
+	UserName string
+}
+
+func isErrUserNameExist(err error) bool {
+	_, ok := err.(errUserNameExist)
+	return ok
+}
+
+func (e errUserNameExist) Error() string {
+	return fmt.Sprintf("username %s already exist", e.UserName)
 }
