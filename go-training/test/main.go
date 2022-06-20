@@ -108,6 +108,38 @@ func main() {
 		}
 	}
 
+	fmt.Println("------------------")
+
+	fooSlice := []string{"A", "B"}
+	fmt.Println("before fooSlice", fooSlice)
+	modify(fooSlice)
+	fmt.Println("after fooSlice", fooSlice)
+
+	fmt.Println("------------------")
+
+	fooSlice = []string{"A", "B"}
+	fmt.Println("before fooSlice", fooSlice)
+	addValue(fooSlice)
+	fmt.Println("after fooSlice", fooSlice)
+
+	fmt.Println("------------------")
+
+	fooSlice = []string{"A", "B"}
+	bar1 := fooSlice[:1]
+	fmt.Println("bar1:", bar1)
+	s1 := append(bar1, "C")
+	fmt.Println("fooSlice:", fooSlice)
+	fmt.Println("s1:", s1)
+	s2 := append(bar1, "D")
+	fmt.Println("fooSlice:", fooSlice)
+	fmt.Println("s2:", s2)
+	s3 := append(bar1, "E", "F")
+	fmt.Println("fooSlice:", fooSlice)
+	fmt.Println("s3:", s3)
+}
+
+type TerminateRequestParam struct {
+	Svcid string `json:"SVC_ID"`
 }
 
 func add(i, j int) int {
@@ -166,4 +198,14 @@ func isErrUserNameExist(err error) bool {
 
 func (e errUserNameExist) Error() string {
 	return fmt.Sprintf("username %s already exist", e.UserName)
+}
+
+func modify(fooSlice []string) {
+	fooSlice[1] = "c"
+	fmt.Println("modify fooSlice", fooSlice)
+}
+
+func addValue(fooSlice []string) {
+	fooSlice = append(fooSlice, "C")
+	fmt.Println("modify fooSlice", fooSlice)
 }
