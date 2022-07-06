@@ -136,6 +136,61 @@ func main() {
 	s3 := append(bar1, "E", "F")
 	fmt.Println("fooSlice:", fooSlice)
 	fmt.Println("s3:", s3)
+
+	fmt.Println("------------------")
+
+	checkValue(0)
+	checkValue(1)
+
+	fmt.Println("------------------")
+
+	fmt.Println("global :", global)
+
+	fmt.Println("------------------")
+
+	c := &car{}
+	c.email = "123"
+	fmt.Printf("1. address %p\n", c)
+	c.SetName01("bar")
+	fmt.Println(c.name)
+	c.SetName02("foo")
+	fmt.Println(c.name)
+}
+
+func (c car) SetName01(s string) {
+	fmt.Printf("2. address %p\n", &c)
+	fmt.Println(c.email)
+	c.name = s
+}
+
+func (c *car) SetName02(s string) {
+	fmt.Printf("3. address %p\n", c)
+	c.name = s
+}
+
+type car struct {
+	name  string
+	email string
+}
+
+var global = getOne()
+
+func getOne() int {
+	return 100
+}
+
+func init() {
+	global = 0
+}
+
+func checkValue(s int) {
+	switch s {
+	case 0:
+		fmt.Println(s)
+		fallthrough
+	case 1:
+		fmt.Println(s)
+	}
 }
 
 type TerminateRequestParam struct {
